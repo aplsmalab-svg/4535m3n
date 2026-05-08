@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,6 +17,11 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+
+      /* BLOK SELECT TEXT */
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
 
     nav {
@@ -53,6 +59,9 @@
     #home img {
       max-width: 80%;
       max-height: 80%;
+
+      /* BLOK DRAG GAMBAR */
+      pointer-events: none;
     }
 
     /* IFRAME */
@@ -69,10 +78,10 @@
 
   <!-- MENU -->
   <nav>
-    <button onClick="showHome()">Home</button>
-    <button onClick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonx.html')">Kelas X</button>
-    <button onClick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonxi.html')">Kelas XI</button>
-    <button onClick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwon12.html')">Kelas XII</button>
+    <button onclick="showHome()">Home</button>
+    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonx.html')">Kelas X</button>
+    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonxi.html')">Kelas XI</button>
+    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwon12.html')">Kelas XII</button>
   </nav>
 
   <!-- HOME CONTENT -->
@@ -84,6 +93,29 @@
   <iframe id="contentFrame"></iframe>
 
   <script>
+
+    /* BLOK KLIK KANAN */
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+    });
+
+    /* BLOK CTRL + U / CTRL + SHIFT + I / F12 */
+    document.addEventListener("keydown", function(e) {
+
+      if (e.ctrlKey && e.key.toLowerCase() === "u") {
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") {
+        e.preventDefault();
+      }
+
+      if (e.key === "F12") {
+        e.preventDefault();
+      }
+
+    });
+
     function showHome() {
       document.getElementById("home").style.display = "flex";
       document.getElementById("contentFrame").style.display = "none";
@@ -95,6 +127,7 @@
       document.getElementById("contentFrame").style.display = "block";
       document.getElementById("contentFrame").src = url;
     }
+
   </script>
 
 </body>
