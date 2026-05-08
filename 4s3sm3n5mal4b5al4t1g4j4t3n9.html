@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- RESPONSIVE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- BLOK MESIN PENCARI -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, noarchive">
+
+  <title>Website Pribadi</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      background: #0f172a;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: #334155;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+
+    nav button:hover {
+      background: #64748b;
+      color: black;
+    }
+
+    /* HOME */
+    #home {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 70px);
+    }
+
+    #home img {
+      max-width: 80%;
+      max-height: 80%;
+    }
+
+    /* IFRAME */
+    iframe {
+      width: 100%;
+      height: calc(100vh - 70px);
+      border: none;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- MENU -->
+  <nav>
+    <button onClick="showHome()">Home</button>
+    <button onClick="loadPage('https://smalab.my.id/test/qscdrtkju34okvbfdehmksbgtsbhushjwonx.html')">Kelas X</button>
+    <button onClick="loadPage('https://smalab.my.id/test/qscdrtkju34okvbfdehmksbgtsbhushjwonxi.html')">Kelas XI</button>
+    <button onClick="loadPage('https://smalab.my.id/test/qscdrtkju34okvbfdehmksbgtsbhushjwon12.html')">Kelas XII</button>
+  </nav>
+
+  <!-- HOME CONTENT -->
+  <div id="home">
+    <img src="asesmen.jpeg" alt="Gambar Home">
+  </div>
+
+  <!-- IFRAME -->
+  <iframe id="contentFrame"></iframe>
+
+  <script>
+    function showHome() {
+      document.getElementById("home").style.display = "flex";
+      document.getElementById("contentFrame").style.display = "none";
+      document.getElementById("contentFrame").src = "";
+    }
+
+    function loadPage(url) {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("contentFrame").style.display = "block";
+      document.getElementById("contentFrame").src = url;
+    }
+  </script>
+
+</body>
+</html>
