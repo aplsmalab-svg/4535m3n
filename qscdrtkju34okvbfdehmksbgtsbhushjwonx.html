@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Soal</title>
+
+  <meta name="robots" content="noindex, nofollow, noarchive">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    h4 {
+      text-align: center;
+    }
+    .datetime {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .jadwal {
+      margin-bottom: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .label {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .content {
+      display: none;
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .btn {
+      display: block;
+      width: 95%;
+      padding: 12px;
+      margin: 5px 0;
+      text-align: center;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>ASESMEN KELAS X </h2>
+ <h4>Takut akan TUHAN adalah permulaan pengetahuan </h4>
+  <div class="datetime" id="datetime"></div>
+
+  <!-- JAM KE-1 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-1</div>
+    <div class="content">
+    <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
+          <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+  <!-- JAM KE-2 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-2</div>
+    <div class="content">
+          <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
+
+  <!-- JAM KE-3 -->
+  <div class="jadwal">
+    <div class="label" onClick="toggle(this)">Jam ke-3</div>
+    <div class="content">
+     	 <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Toggle buka-tutup
+  function toggle(el) {
+    let content = el.nextElementSibling;
+    content.style.display = (content.style.display === "block") ? "none" : "block";
+  }
+
+  // Tanggal & jam
+  function updateDateTime() {
+    const now = new Date();
+
+    const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
+                   "Juli","Agustus","September","Oktober","November","Desember"];
+
+    let h = hari[now.getDay()];
+    let tgl = now.getDate();
+    let bln = bulan[now.getMonth()];
+    let thn = now.getFullYear();
+
+    let jam = now.getHours().toString().padStart(2,'0');
+    let menit = now.getMinutes().toString().padStart(2,'0');
+    let detik = now.getSeconds().toString().padStart(2,'0');
+
+    document.getElementById("datetime").innerHTML =
+      h + ", " + tgl + " " + bln + " " + thn + "<br>" +
+      jam + ":" + menit + ":" + detik;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  // Nonaktifkan klik kanan
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+  // Paksa buka di halaman yang sama
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = this.href;
+    });
+
+    link.addEventListener('auxclick', function(e) {
+      e.preventDefault();
+    });
+  });
+</script>
+
+</body>
+</html>
