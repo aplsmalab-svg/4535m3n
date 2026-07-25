@@ -50,11 +50,36 @@
 
     /* HOME */
     #home {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100vh - 70px);
-    }
+  display: flex;
+  flex-direction: column;     /* susun vertikal */
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 35px;
+  height: calc(100vh - 50px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* JUDUL SEKOLAH */
+.school-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e3a8a;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* LEAD */
+.lead-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2563eb;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
 
     #home img {
       max-width: 80%;
@@ -86,6 +111,15 @@
 
   <!-- HOME CONTENT -->
   <div id="home">
+
+  <div class="school-title">
+    SMA KRISTEN SATYA WACANA
+  </div>
+
+  <div class="lead-title">
+    Leader-Explorer-Achiever-Disciple
+  </div>
+
     <img src="asesemen.png" alt="Gambar Home">
   </div>
 
