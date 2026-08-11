@@ -1,168 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Gambar</title>
 
-  <!-- RESPONSIVE -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
 
-  <!-- BLOK MESIN PENCARI -->
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <meta name="googlebot" content="noindex, noarchive">
+        .container {
+            text-align: center;
+        }
 
-  <title>Website Pribadi</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-
-      /* BLOK SELECT TEXT */
-      user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
-
-    nav {
-      background: #0f172a;
-      padding: 12px;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    nav button {
-      background: #334155;
-      color: white;
-      border: none;
-      padding: 5px 8px;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 5px;
-    }
-
-    nav button:hover {
-      background: #64748b;
-      color: black;
-    }
-
-    /* HOME */
-    #home {
-  display: flex;
-  flex-direction: column;     /* susun vertikal */
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 35px;
-  height: calc(100vh - 50px);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* JUDUL SEKOLAH */
-.school-title {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #1e3a8a;
-  letter-spacing: 1px;
-  margin-bottom: 5px;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-/* LEAD */
-.lead-title {
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: #2563eb;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-}
-
-    #home img {
-      max-width: 80%;
-      max-height: 80%;
-
-      /* BLOK DRAG GAMBAR */
-      pointer-events: none;
-    }
-
-    /* IFRAME */
-    iframe {
-      width: 100%;
-      height: calc(100vh - 70px);
-      border: none;
-      display: none;
-    }
-  </style>
+        img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
 </head>
 
-<body>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <img src="eror.png" alt="Gambar Tengah">
+    </div>
 
-  <!-- MENU -->
-  <nav>
-    <button onclick="showHome()">Home</button>
-    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonx.html')">Kelas X</button>
-    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwonxi.html')">Kelas XI</button>
-    <button onclick="loadPage('qscdrtkju34okvbfdehmksbgtsbhushjwon12.html')">Kelas XII</button>
-  </nav>
-
-  <!-- HOME CONTENT -->
-  <div id="home">
-
-  <div class="school-title">
-    SMA KRISTEN SATYA WACANA
-  </div>
-
-  <div class="lead-title">
-    Leader-Explorer-Achiever-Disciple
-  </div>
-
-    <img src="asesemen.png" alt="Gambar Home">
-  </div>
-
-  <!-- IFRAME -->
-  <iframe id="contentFrame"></iframe>
-
-  <script>
-
-    /* BLOK KLIK KANAN */
-    document.addEventListener("contextmenu", function(e) {
-      e.preventDefault();
-    });
-
-    /* BLOK CTRL + U / CTRL + SHIFT + I / F12 */
-    document.addEventListener("keydown", function(e) {
-
-      if (e.ctrlKey && e.key.toLowerCase() === "u") {
-        e.preventDefault();
-      }
-
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") {
-        e.preventDefault();
-      }
-
-      if (e.key === "F12") {
-        e.preventDefault();
-      }
-
-    });
-
-    function showHome() {
-      document.getElementById("home").style.display = "flex";
-      document.getElementById("contentFrame").style.display = "none";
-      document.getElementById("contentFrame").src = "";
-    }
-
-    function loadPage(url) {
-      document.getElementById("home").style.display = "none";
-      document.getElementById("contentFrame").style.display = "block";
-      document.getElementById("contentFrame").src = url;
-    }
-
-  </script>
-
+    <script>
+        // Blok klik kanan tambahan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 </html>
