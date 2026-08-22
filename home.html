@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Gambar</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Tampilan saat akses ditolak */
+        .access-denied {
+            display: none;
+            color: #dc2626;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false;">
+
+    <!-- Pesan jika dibuka langsung tanpa token -->
+    <div id="accessDenied" class="access-denied">
+        <h2>Akses Ditolak</h2>
+        <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
+    </div>
+
+    <!-- Konten Gambar (Default tersembunyi) -->
+    <div class="container" id="mainContainer" style="display: none;">
+        <img src="eror.png" alt="Gambar Tengah">
+    </div>
+
+    <script>
+        // Validasi Security Token dari URL
+        const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
+
+        function checkAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('key');
+
+            if (token === EXPECTED_TOKEN) {
+                document.getElementById('mainContainer').style.display = 'block';
+            } else {
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Jalankan pemeriksaan akses saat halaman dimuat
+        checkAccess();
+
+        // Blok klik kanan tambahan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
