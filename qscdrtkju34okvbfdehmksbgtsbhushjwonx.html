@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu Soal</title>
 <script>
-    var referrer = document.referrer;
-    if (!referrer.includes("sites.google.com")) {
-      window.location.href = "https://sites.google.com/view/alamat-google-sites-anda";
-    }
-  </script>
+  var referrer = document.referrer;
+  // Jika tidak diakses dari Google Sites
+  if (!referrer.includes("sites.google.com")) {
+    // Alihkan ke file html peringatan
+    window.location.href = "peringatan.html";
+  }
+</script>
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
