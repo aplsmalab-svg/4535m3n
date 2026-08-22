@@ -23,13 +23,13 @@
 
         .container {
             display: flex;
-            flex-direction: column; /* Menyusun judul, teks berjalan, dan gambar secara vertikal */
+            flex-direction: column; /* Menyusun elemen secara vertikal */
             align-items: center;    /* Memastikan semua elemen berada di tengah secara horizontal */
             width: 100%;
-            max-width: 800px;       /* Membatasi lebar maksimum area teks */
+            max-width: 800px;
             height: 100vh;
             padding: 20px;
-            padding-top: 25px;      /* Jarak dari batas atas layar */
+            padding-top: 25px;
         }
 
         /* Styling Judul Utama */
@@ -52,11 +52,20 @@
 
         img {
             max-width: 100%;
-            max-height: 75vh;       /* Menyesuaikan batas tinggi agar tidak overflow setelah ditambah teks */
+            max-height: 70vh;       /* Menyesuaikan batas tinggi agar gambar dan teks bawah muat sempurna */
             width: auto;
             height: auto;
             object-fit: contain;
             border-radius: 10px; 
+        }
+
+        /* Styling Teks di Bawah Gambar */
+        .footer-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: #64748b;
+            margin-top: 10px;
+            text-align: center;
         }
 
         /* Tampilan saat akses ditolak */
@@ -85,51 +94,15 @@
         
         <!-- Teks Berjalan dari Kanan ke Kiri -->
         <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
-            Leader - Explorer - Archiever - Disciple                                       n03g
+            Leader - Explorer - Archiever - Disciple
         </marquee>
 
         <!-- Gambar Utama -->
         <img src="asesemen.png" alt="Gambar Tengah">
+
+        <!-- Teks di Bawah Gambar -->
+        <div class="footer-text">n03g</div>
         
-    </div>
-
-    <script>
-        // Validasi Security Token dari URL
-        const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
-
-        function checkAccess() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('key');
-
-            if (token === EXPECTED_TOKEN) {
-                document.getElementById('mainContainer').style.display = 'flex';
-            } else {
-                document.getElementById('accessDenied').style.display = 'block';
-            }
-        }
-
-        // Jalankan pemeriksaan akses saat halaman dimuat
-        checkAccess();
-
-        // Blok klik kanan tambahan
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-    </script>
-</body>
-</html>
-
-<body oncontextmenu="return false;">
-
-    <!-- Pesan jika dibuka langsung tanpa token -->
-    <div id="accessDenied" class="access-denied">
-        <h2>Akses Ditolak</h2>
-        <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
-    </div>
-
-    <!-- Konten Gambar (Default tersembunyi) -->
-    <div class="container" id="mainContainer" style="display: none;">
-        <img src="asesemen.png" alt="Gambar Tengah">
     </div>
 
     <script>
