@@ -23,17 +23,36 @@
 
         .container {
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Menggeser posisi vertikal ke atas */
+            flex-direction: column; /* Menyusun judul, teks berjalan, dan gambar secara vertikal */
+            align-items: center;    /* Memastikan semua elemen berada di tengah secara horizontal */
             width: 100%;
+            max-width: 800px;       /* Membatasi lebar maksimum area teks */
             height: 100vh;
             padding: 20px;
-            padding-top: 40px; /* Jarak dari batas atas layar (bisa disesuaikan, misal 20px - 60px) */
+            padding-top: 25px;      /* Jarak dari batas atas layar */
+        }
+
+        /* Styling Judul Utama */
+        .header-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        /* Styling Teks Berjalan */
+        .running-text {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 15px;
         }
 
         img {
             max-width: 100%;
-            max-height: 85vh; /* Menyesuaikan batas tinggi agar tidak overflow */
+            max-height: 75vh;       /* Menyesuaikan batas tinggi agar tidak overflow setelah ditambah teks */
             width: auto;
             height: auto;
             object-fit: contain;
@@ -49,6 +68,56 @@
         }
     </style>
 </head>
+
+<body oncontextmenu="return false;">
+
+    <!-- Pesan jika dibuka langsung tanpa token -->
+    <div id="accessDenied" class="access-denied">
+        <h2>Akses Ditolak</h2>
+        <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
+    </div>
+
+    <!-- Konten Gambar dan Teks (Default tersembunyi) -->
+    <div class="container" id="mainContainer" style="display: none;">
+        
+        <!-- Judul Atas -->
+        <h1 class="header-title">SMA KRISTEN SATYA WACANA</h1>
+        
+        <!-- Teks Berjalan dari Kanan ke Kiri -->
+        <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
+            Berbudaya - Berprestasi - Berkarakter
+        </marquee>
+
+        <!-- Gambar Utama -->
+        <img src="asesemen.png" alt="Gambar Tengah">
+        
+    </div>
+
+    <script>
+        // Validasi Security Token dari URL
+        const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
+
+        function checkAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('key');
+
+            if (token === EXPECTED_TOKEN) {
+                document.getElementById('mainContainer').style.display = 'flex';
+            } else {
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Jalankan pemeriksaan akses saat halaman dimuat
+        checkAccess();
+
+        // Blok klik kanan tambahan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
 
 <body oncontextmenu="return false;">
 
