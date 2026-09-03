@@ -165,12 +165,15 @@
 
             const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
             const nilai = item['Nilai'] || item['Score'] || '-';
-
+            const waktu = item['Timestamp'] || item['Waktu'] || '-';
+            
             let htmlCard = `
                 <div class="card">
                     <p><strong>Nama:</strong> ${namaTampil}</p>
                     <p><strong>Kelas:</strong> ${sekolah}</p>
                     <p><strong>Nilai:</strong> ${nilai}</p>
+                    <p><strong>Waktu:</strong> ${waktu}</p>
+            
                 </div>
             `;
             resultDiv.innerHTML += htmlCard;
