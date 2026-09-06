@@ -157,6 +157,7 @@
                 const nama2 = (item['Nama2'] || '').trim();
                 const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
                 const nilai = item['Score'] || item['Nilai'] || item['Skor'] || '-';
+                const waktu = item['Timestamp'] || '-';
 
                 // Menggabungkan Nama 1 dan Nama 2 untuk ditampilkan
                 let namaTampil = '-';
@@ -173,6 +174,7 @@
                         <p><strong>Nama:</strong> ${namaTampil}</p>
                         <p><strong>Kelas:</strong> ${sekolah}</p>
                         <p><strong>Nilai:</strong> ${nilai}</p>
+                        <p><strong>Waktu mengerjakan:</strong> ${nilai}</p>
                     </div>
                 `;
                 resultDiv.innerHTML += htmlCard;
