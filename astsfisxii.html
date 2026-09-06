@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Data Google Form</title>
+    <!-- Library PapaParse untuk membaca data CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h2, h4 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        h4 {
+            color: #666;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 480px) {
+            .form-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lihat ASTS Fisika XII</h2>
+    <h4>Nama tidak harus ditulis lengkap!</h4>
+    
+    <div class="form-group">
+        <input type="text" id="searchInput" placeholder="Masukkan nama...">
+        <button onClick="cariData()">Cari</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQFd_IimM36sNHKKxjq2IaTNnjczxnJd71ySx_QfLRruk114INv305DD5TMH7QXkFk3lEL6zaHRIczb/pub?gid=192844699&single=true&output=csv';
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                cariData();
+            }
+        });
+
+        function cariData() {
+            const namaCari = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
+
+            if (!namaCari) {
+                resultDiv.innerHTML = '<p style="color:red; text-align:center;">Silakan masukkan nama terlebih dahulu.</p>';
+                return;
+            }
+
+            Papa.parse(SHEET_CSV_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const data = results.data;
+                    
+                    const hasilFilter = data.filter(row => {
+                        // Mencari di kolom 'Nama 1' atau 'Nama 2'
+                        // Jika di Google Sheet Anda nama headernya sedikit berbeda (misal 'Nama' dan 'Nama 2'), sesuaikan teks di dalam kurung siku
+                        const nama1 = (row['Nama1'] || row['Nama'] || '').toLowerCase();
+                        const nama2 = (row['Nama2'] || '').toLowerCase();
+
+                        return nama1.includes(namaCari) || nama2.includes(namaCari);
+                    });
+
+                    tampilkanHasil(hasilFilter);
+                },
+                error: function(err) {
+                    resultDiv.innerHTML = '<p style="color:red; text-align:center;">Gagal mengambil data. Pastikan koneksi atau link CSV benar.</p>';
+                }
+            });
+        }
+
+        function tampilkanHasil(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            if (data.length === 0) {
+                resultDiv.innerHTML = '<p style="text-align:center;">Data tidak ditemukan.</p>';
+                return;
+            }
+
+            data.forEach(item => {
+                const nama1 = (item['Nama1'] || item['Nama'] || '').trim();
+                const nama2 = (item['Nama2'] || '').trim();
+                const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
+                const nilai = item['Score'] || item['Nilai'] || item['Skor'] || '-';
+
+                // Menggabungkan Nama 1 dan Nama 2 untuk ditampilkan
+                let namaTampil = '-';
+                if (nama1 && nama2) {
+                    namaTampil = `${nama1} / ${nama2}`;
+                } else if (nama1) {
+                    namaTampil = nama1;
+                } else if (nama2) {
+                    namaTampil = nama2;
+                }
+
+                let htmlCard = `
+                    <div class="card">
+                        <p><strong>Nama:</strong> ${namaTampil}</p>
+                        <p><strong>Kelas:</strong> ${sekolah}</p>
+                        <p><strong>Nilai:</strong> ${nilai}</p>
+                    </div>
+                `;
+                resultDiv.innerHTML += htmlCard;
+            });
+        }
+
+        // Nonaktifkan klik kanan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+
+</body>
+</html>
