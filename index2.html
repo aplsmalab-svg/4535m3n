@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!-- Meta Viewport penting agar responsif di HP/Tablet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Navigasi</title>
+  
+  <style>
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: Arial, sans-serif; 
+    }
+    
+    /* Paksa seluruh layar terisi penuh tanpa scrollbar luar */
+    html, body {
+      width: 100%;
+      height: 100vh;
+      overflow-x: hidden; /* Mencegah scrollbar di luar iframe */
+      display: flex;
+      flex-direction: column;
+      background-color: #1e293b;
+    }
+    
+    /* Navigasi Menu */
+    .navbar {
+      display: flex;
+      justify-content: center; /* Menu berada di tengah */
+      align-items: center;
+      background-color: #1e293b;
+      padding: 6px;
+      gap: 4px;
+      flex-wrap: wrap; /* Agar tombol otomatis turun jika layar terlalu sempit */
+      z-index: 10;
+    }
+
+    .nav-btn {
+      background-color: #334155;
+      color: #ffffff;
+      border: none;
+      padding: 4px 4px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+      font-size: 14px;
+      flex: 1 1 auto; /* Agar fleksibel di HP */
+      max-width: 80px;
+      text-align: center;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background-color: #2563eb;
+    }
+
+    /* Container Iframe mengisi sisa ruang layar */
+    .iframe-container {
+      flex: 1; /* Mengisi seluruh sisa tinggi layar di bawah navbar */
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: #ffffff;
+    }
+
+    iframe {
+      width: 108vw;
+      height: 100%;
+      border: none;
+	  margin-left: -4vw;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu Navigasi Tengah -->
+  <div class="navbar">
+    <button class="nav-btn active" onClick="loadPage('home.html', this)">Home</button>
+    <button class="nav-btn" onClick="loadPage('zqscdrtkju34okvbfdehmksbgtsbhushjwonx.html', this)">Kelas X</button>
+    <button class="nav-btn" onClick="loadPage('zqscdrtkju34okvbfdehmksbgtsbhushjwonxi.html', this)">Kelas XI</button>
+    <button class="nav-btn" onClick="loadPage('zqscdrtkju34okvbfdehmksbgtsbhushjwon12.html', this)">Kelas XII</button>
+  </div>
+
+  <!-- Area Konten (Iframe) -->
+  <div class="iframe-container">
+    <iframe id="mainFrame" src=""></iframe>
+  </div>
+
+  <script>
+    // SESUDAH:
+const BASE_URL = "";
+    const SECURITY_TOKEN = "AksesKhususGoogleSites2026"; 
+
+    function loadPage(fileName, element) {
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+
+      const iframe = document.getElementById('mainFrame');
+      iframe.src = BASE_URL + fileName + "?key=" + SECURITY_TOKEN;
+    }
+
+    window.onload = function() {
+      const firstBtn = document.querySelector('.nav-btn');
+      loadPage('home.html', firstBtn);
+    };
+  </script>
+
+</body>
+</html>
