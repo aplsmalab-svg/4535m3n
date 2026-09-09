@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Gambar</title>
+    <title>Home</title>
 
     <style>
         * {
@@ -18,16 +18,15 @@
             min-height: 100vh;
             background-color: #ffffff;
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .container {
             display: flex;
-            flex-direction: column; /* Menyusun elemen secara vertikal */
-            align-items: center;    /* Memastikan semua elemen berada di tengah secara horizontal */
+            flex-direction: column;
+            align-items: center;
             width: 100%;
             max-width: 800px;
-            height: 100vh;
             padding: 20px;
             padding-top: 25px;
         }
@@ -50,22 +49,88 @@
             margin-bottom: 15px;
         }
 
+        /* Logo */
         img {
-            max-width: 85%;
-            max-height: 50vh;       /* Menyesuaikan batas tinggi agar gambar dan teks bawah muat sempurna */
+            max-width: 75%;
+            max-height: 45vh;
             width: auto;
             height: auto;
             object-fit: contain;
-            border-radius: 10px; 
+            border-radius: 10px;
         }
 
-        /* Styling Teks di Bawah Gambar */
+        /* Container Informasi Modul Fisika SMA */
+        .module-info {
+            width: 95%;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .module-info h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .module-info p {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .module-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .module-item {
+            font-size: 12px;
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        /* Styling Teks Footer */
         .footer-text {
             font-size: 14px;
             font-weight: bold;
             color: #64748b;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Hari, Tanggal dan Jam */
+        .datetime {
             margin-top: 10px;
             text-align: center;
+            color: #475569;
+        }
+
+        .datetime .hari {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .datetime .tanggal {
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .datetime .jam {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-top: 3px;
         }
 
         /* Tampilan saat akses ditolak */
@@ -86,13 +151,13 @@
         <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
     </div>
 
-    <!-- Konten Gambar dan Teks (Default tersembunyi) -->
+    <!-- Konten Utama -->
     <div class="container" id="mainContainer" style="display: none;">
         
         <!-- Judul Atas -->
         <h1 class="header-title">SMA KRISTEN SATYA WACANA</h1>
         
-        <!-- Teks Berjalan dari Kanan ke Kiri -->
+        <!-- Teks Berjalan -->
         <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
             Leader - Explorer - Archiever - Disciple
         </marquee>
@@ -100,33 +165,149 @@
         <!-- Gambar Utama -->
         <img src="asesemen.png" alt="Gambar Tengah">
 
-        <!-- Teks di Bawah Gambar -->
-        <div class="footer-text">n03g</div>
+        <!-- Informasi Modul Materi Fisika SMA -->
+        <div class="module-info">
+            <h3>Deskripsi</h3>
+
+            <p>
+                Modul pelajaran fisika SMA dan informatika SMA adalah panduan belajar mandiri
+                yang dirancang ringkas untuk membantu siswa memahami
+                konsep-konsep alam, mulai dari gerak dan gaya hingga listrik
+                dan fisika modern. Modul ini menyajikan materi secara
+                terstruktur, dilengkapi dengan contoh soal, pembahasan
+                kontekstual, serta latihan mandiri untuk melatih kemampuan
+                berpikir kritis dan pemecahan masalah secara logis.
+            </p>
+
+            
+        </div>
+
         
+        <!-- Hari, Tanggal dan Jam -->
+        <div class="datetime">
+            <div class="hari" id="hari"></div>
+            <div class="tanggal" id="tanggal"></div>
+            <div class="jam" id="jam"></div>
+        </div>
+
     </div>
 
     <script>
-        // Validasi Security Token dari URL
+        // ==========================================
+        // VALIDASI SECURITY TOKEN DARI URL
+        // ==========================================
+
         const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
 
         function checkAccess() {
-            const urlParams = new URLSearchParams(window.location.search);
+
+            const urlParams =
+                new URLSearchParams(window.location.search);
+
             const token = urlParams.get('key');
 
             if (token === EXPECTED_TOKEN) {
-                document.getElementById('mainContainer').style.display = 'flex';
+
+                document.getElementById('mainContainer')
+                    .style.display = 'flex';
+
             } else {
-                document.getElementById('accessDenied').style.display = 'block';
+
+                document.getElementById('accessDenied')
+                    .style.display = 'block';
             }
         }
 
-        // Jalankan pemeriksaan akses saat halaman dimuat
+
+        // ==========================================
+        // HARI, TANGGAL DAN JAM
+        // ==========================================
+
+        function tampilkanWaktu() {
+
+            const sekarang = new Date();
+
+            const namaHari = [
+                "Minggu",
+                "Senin",
+                "Selasa",
+                "Rabu",
+                "Kamis",
+                "Jumat",
+                "Sabtu"
+            ];
+
+            const namaBulan = [
+                "Januari",
+                "Februari",
+                "Maret",
+                "April",
+                "Mei",
+                "Juni",
+                "Juli",
+                "Agustus",
+                "September",
+                "Oktober",
+                "November",
+                "Desember"
+            ];
+
+            const hari =
+                namaHari[sekarang.getDay()];
+
+            const tanggal =
+                sekarang.getDate();
+
+            const bulan =
+                namaBulan[sekarang.getMonth()];
+
+            const tahun =
+                sekarang.getFullYear();
+
+            const jam =
+                String(sekarang.getHours()).padStart(2, "0");
+
+            const menit =
+                String(sekarang.getMinutes()).padStart(2, "0");
+
+            const detik =
+                String(sekarang.getSeconds()).padStart(2, "0");
+
+
+            document.getElementById("hari").textContent =
+                hari;
+
+            document.getElementById("tanggal").textContent =
+                tanggal + " " + bulan + " " + tahun;
+
+            document.getElementById("jam").textContent =
+                jam + ":" + menit + ":" + detik;
+        }
+
+
+        // ==========================================
+        // JALANKAN PROGRAM
+        // ==========================================
+
+        // Pemeriksaan akses
         checkAccess();
 
-        // Blok klik kanan tambahan
+        // Tampilkan waktu pertama kali
+        tampilkanWaktu();
+
+        // Perbarui jam setiap 1 detik
+        setInterval(tampilkanWaktu, 1000);
+
+
+        // ==========================================
+        // BLOK KLIK KANAN
+        // ==========================================
+
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
+
     </script>
+
 </body>
 </html>
