@@ -140,6 +140,12 @@
             text-align: center;
             margin-top: 50px;
         }
+		.module-info p.kata-hari-ini {
+        font-size: 13px;
+        color: #2563eb; /* Mengubah warna teks menjadi biru */
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
     </style>
 </head>
 
@@ -165,11 +171,11 @@
         <!-- Gambar Utama -->
         <img src="asesemen.png" alt="Gambar Tengah">
 
-            <div class="module-info">
-        <h3>Kata hari ini</h3>
-       <!-- Tambahkan id="kataHariIni" -->
-        <p id="kataHariIni"></p>
-     </div>
+        <!-- Informasi Modul Materi Fisika SMA -->
+     <div class="module-info">
+    <h3>Kata Hari Ini</h3>
+    <p id="kataHariIni" class="kata-hari-ini"></p>
+</div>
 
         
         <!-- Hari, Tanggal dan Jam -->
@@ -310,10 +316,7 @@
         "Serahkanlah segala kekhawatiranmu kepada-Nya, sebab Ia yang memelihara kamu."
 	];
 
-    // Mengambil indeks secara acak berdasarkan panjang daftarKata
     const indexAcak = Math.floor(Math.random() * daftarKata.length);
-
-    // Menampilkan kalimat acak ke dalam elemen HTML
     document.getElementById("kataHariIni").innerText = daftarKata[indexAcak];
 </script>
 </body>
