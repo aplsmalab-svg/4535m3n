@@ -166,21 +166,11 @@
         <img src="asesemen.png" alt="Gambar Tengah">
 
         <!-- Informasi Modul Materi Fisika SMA -->
-        <div class="module-info">
-            <h3>Deskripsi</h3>
-
-            <p>
-                Modul pelajaran fisika SMA dan informatika SMA adalah panduan belajar mandiri
-                yang dirancang ringkas untuk membantu siswa memahami
-                konsep-konsep alam, mulai dari gerak dan gaya hingga listrik
-                dan fisika modern. Modul ini menyajikan materi secara
-                terstruktur, dilengkapi dengan contoh soal, pembahasan
-                kontekstual, serta latihan mandiri untuk melatih kemampuan
-                berpikir kritis dan pemecahan masalah secara logis.
-            </p>
-
-            
-        </div>
+     <div class="module-info">
+        <h3>Kata Hari Ini</h3>
+       <!-- Tambahkan id="kataHariIni" -->
+        <p id="kataHariIni"></p>
+     </div>
 
         
         <!-- Hari, Tanggal dan Jam -->
@@ -308,6 +298,22 @@
         });
 
     </script>
+<script>
+    // Daftar kata/kalimat yang akan ditampilkan secara acak
+    const daftarKata = [
+        "Fisika membantu kita memahami bagaimana alam semesta bekerja, mulai dari gerak hingga energi.",
+        "Informatika melatih logika berpikir komputasional untuk memecahkan masalah kompleks.",
+        "Belajar adalah proses berkelanjutan. Jangan takut gagal dalam mencoba hal baru!",
+        "Teknologi dan sains adalah kunci utama pembuka masa depan yang cerah.",
+        "Konsistensi dalam belajar jauh lebih efektif daripada belajar sekaligus dalam waktu singkat.",
+        "Setiap masalah yang rumit bisa dipecahkan jika kita membaginya menjadi bagian-bagian kecil."
+    ];
 
+    // Mengambil indeks secara acak berdasarkan panjang daftarKata
+    const indexAcak = Math.floor(Math.random() * daftarKata.length);
+
+    // Menampilkan kalimat acak ke dalam elemen HTML
+    document.getElementById("kataHariIni").innerText = daftarKata[indexAcak];
+</script>
 </body>
 </html>
