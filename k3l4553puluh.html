@@ -1,0 +1,551 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Menu Soal</title>
+
+  <meta name="robots" content="noindex, nofollow, noarchive">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 0 0 5px 0;
+    }
+
+    h4 {
+      text-align: center;
+      margin: 0;
+    }
+
+    .datetime {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+
+    /* =========================
+       MENU ATAS
+       ========================= */
+
+    .menu-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: #f4f6f8;
+
+      padding: 8px 0;
+
+      border-bottom: 1px solid #ddd;
+    }
+
+    .menu {
+      display: flex;
+      gap: 6px;
+
+      overflow-x: auto;
+
+      white-space: nowrap;
+
+      scrollbar-width: none;
+    }
+
+    .menu::-webkit-scrollbar {
+      display: none;
+    }
+
+    .menu button {
+      flex: 0 0 auto;
+
+      border: none;
+
+      background: #007bff;
+
+      color: white;
+
+      padding: 11px 14px;
+
+      border-radius: 8px;
+
+      font-size: 14px;
+
+      cursor: pointer;
+    }
+
+    .menu button:hover {
+      background: #0056b3;
+    }
+
+    .menu button.active {
+      background: #0056b3;
+      font-weight: bold;
+    }
+
+
+    /* =========================
+       AREA SOAL
+       ========================= */
+
+    #soalContainer {
+      margin-top: 10px;
+
+      background: white;
+
+      border-radius: 10px;
+
+      overflow: hidden;
+
+      min-height: 600px;
+    }
+
+    #soalFrame {
+      width: 100%;
+
+      height: 800px;
+
+      border: none;
+
+      display: none;
+    }
+
+    #pesanAwal {
+      padding: 40px 20px;
+
+      text-align: center;
+
+      color: #666;
+    }
+
+
+    /* =========================
+       AKSES DITOLAK
+       ========================= */
+
+    .access-denied {
+      display: none;
+
+      color: #dc2626;
+
+      text-align: center;
+
+      margin-top: 50px;
+    }
+
+
+    /* =========================
+       HP
+       ========================= */
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 10px;
+      }
+
+      .menu button {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      #soalFrame {
+        height: 850px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     AKSES DITOLAK
+     ========================= -->
+
+<div id="accessDenied" class="access-denied">
+
+  <h2>Akses Ditolak</h2>
+
+  <p>
+    Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.
+  </p>
+
+</div>
+
+
+<!-- =========================
+     KONTEN UTAMA
+     ========================= -->
+
+<div class="container" id="mainContainer" style="display:none;">
+
+
+  <h2>ASESMEN KELAS X</h2>
+
+
+  <marquee
+    behavior="scroll"
+    direction="left"
+    scrollamount="6">
+
+    <h4>
+      Takut akan TUHAN adalah permulaan pengetahuan
+    </h4>
+
+  </marquee>
+
+
+  <div class="datetime" id="datetime"></div>
+
+
+
+  <!-- =========================
+       MENU TETAP DI ATAS
+       ========================= -->
+
+  <div class="menu-wrapper">
+
+    <div class="menu">
+
+      <button
+        onclick="bukaSoal('Jam ke-1', '')">
+
+        Jam ke-1
+
+      </button>
+
+
+      <button
+        onclick="bukaSoal('Jam ke-2', '')">
+
+        Jam ke-2
+
+      </button>
+
+
+      <button
+        onclick="bukaSoal('Jam ke-3', '')">
+
+        Jam ke-3
+
+      </button>
+
+
+      <button
+        onclick="bukaSoal(
+          'UH Fisika Pengukuran',
+          'https://docs.google.com/forms/d/e/1FAIpQLScHdQYa3bui2mj9m7zBt4dzUeAhHb6yiKq8zQW2ZfNxabWIOw/viewform'
+        )">
+
+        UH Pengukuran
+
+      </button>
+
+
+      <button
+        onclick="bukaSoal(
+          'Literasi/Numerasi',
+          'https://docs.google.com/forms/d/e/1FAIpQLSegsnQK8MTQG5BeNgm3gU5fGkgfOiGAhOl-ynG7zrePirpPtA/viewform'
+        )">
+
+        Literasi/Numerasi
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       AREA GFORM
+       ========================= -->
+
+  <div id="soalContainer">
+
+    <div id="pesanAwal">
+
+      <h3>Silakan pilih asesmen</h3>
+
+      <p>
+        Pilih tombol di bagian atas untuk membuka soal.
+      </p>
+
+    </div>
+
+
+    <iframe
+      id="soalFrame"
+      allowfullscreen>
+    </iframe>
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+  /* =========================
+     VALIDASI TOKEN
+     ========================= */
+
+  const EXPECTED_TOKEN =
+    "AksesKhususGoogleSites2026";
+
+
+  function checkAccess() {
+
+    const urlParams =
+      new URLSearchParams(window.location.search);
+
+    const token =
+      urlParams.get('key');
+
+
+    if (token === EXPECTED_TOKEN) {
+
+      document.getElementById(
+        'mainContainer'
+      ).style.display = 'block';
+
+    }
+
+    else {
+
+      document.getElementById(
+        'accessDenied'
+      ).style.display = 'block';
+
+    }
+
+  }
+
+
+  checkAccess();
+
+
+
+  /* =========================
+     MEMBUKA SOAL
+     ========================= */
+
+  function bukaSoal(nama, url) {
+
+    const frame =
+      document.getElementById('soalFrame');
+
+    const pesan =
+      document.getElementById('pesanAwal');
+
+
+    /*
+       Jika URL kosong,
+       tampilkan pesan sementara.
+    */
+
+    if (!url) {
+
+      frame.style.display = 'none';
+
+      pesan.style.display = 'block';
+
+      pesan.innerHTML =
+        '<h3>' + nama + '</h3>' +
+        '<p>Soal untuk sesi ini belum tersedia.</p>';
+
+      return;
+
+    }
+
+
+    /*
+       Tampilkan Google Form
+    */
+
+    frame.src = url;
+
+    frame.style.display = 'block';
+
+    pesan.style.display = 'none';
+
+
+    /*
+       Tandai tombol aktif
+    */
+
+    document
+      .querySelectorAll('.menu button')
+      .forEach(function(btn) {
+
+        btn.classList.remove('active');
+
+      });
+
+
+    event.currentTarget.classList.add('active');
+
+
+    /*
+       Kembali ke posisi menu
+       agar tombol tetap terlihat.
+    */
+
+    document
+      .querySelector('.menu-wrapper')
+      .scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+  }
+
+
+
+  /* =========================
+     TANGGAL DAN JAM
+     ========================= */
+
+  function updateDateTime() {
+
+    const now = new Date();
+
+
+    const hari = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu"
+    ];
+
+
+    const bulan = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ];
+
+
+    let h =
+      hari[now.getDay()];
+
+
+    let tgl =
+      now.getDate();
+
+
+    let bln =
+      bulan[now.getMonth()];
+
+
+    let thn =
+      now.getFullYear();
+
+
+    let jam =
+      now.getHours()
+      .toString()
+      .padStart(2,'0');
+
+
+    let menit =
+      now.getMinutes()
+      .toString()
+      .padStart(2,'0');
+
+
+    let detik =
+      now.getSeconds()
+      .toString()
+      .padStart(2,'0');
+
+
+    document.getElementById(
+      "datetime"
+    ).innerHTML =
+
+      h + ", " +
+      tgl + " " +
+      bln + " " +
+      thn +
+
+      "<br>" +
+
+      jam + ":" +
+      menit + ":" +
+      detik;
+
+  }
+
+
+  setInterval(
+    updateDateTime,
+    1000
+  );
+
+
+  updateDateTime();
+
+
+
+  /* =========================
+     NONAKTIFKAN KLIK KANAN
+     ========================= */
+
+  document.addEventListener(
+    'contextmenu',
+    function(e) {
+
+      e.preventDefault();
+
+    }
+  );
+
+
+</script>
+
+
+</body>
+</html>
+```
+
