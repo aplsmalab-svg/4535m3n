@@ -1,529 +1,128 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menu Soal</title>
-
-  <meta name="robots" content="noindex, nofollow, noarchive">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      padding: 20px;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    h4 {
-      text-align: center;
-    }
-    .datetime {
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    .jadwal {
-      margin-bottom: 5px;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .label {
-      background: #007bff;
-      color: white;
-      padding: 6px;
-      cursor: pointer;
-      border-radius: 10px;
-    }
-
-    .content {
-      display: none;
-      background: #ffffff;
-      padding: 10px;
-    }
-
-    .btn {
-      display: inline-block; /* Membuat tombol menyesuaikan lebar teks */
-      width: 80%;           /* Lebar */
-      padding: 8px 16px;     /* Ukuran padding yang lebih proporsional */
-      margin: 5px 4px;       /* Jarak antar tombol */
-      text-align: center;
-      background: #28a745;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
-/* Warna khusus untuk tombol Lihat Nilai */
-    .btn-nilai {
-      background: #17a2b8; /* Ubah kode hex warna di sini (misal: #17a2b8, #fd7e14, dll) */
-    }
-    .btn:active {
-      transform: scale(0.98);
-    }
-	  /* Deskripsi Footer Paling Bawah */
-    .footer-desc {
-      margin-top: 10px;
-      margin-left: 1px;  /* Memberi jarak 20px dari tepi kiri */
-      margin-right: 1px; /* Memberi jarak 20px dari tepi kanan */
-      padding: 15px;
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      border-top: 4px solid #007bff;
-      border-left: 1px solid #007bff;  
-       border-right: 1px solid #007bff; 
-    }
-
-    .footer-desc h4 {
-      margin: 0 0 8px 0;
-      color: #007bff;
-      text-align: left;
-    }
-
-    .footer-desc p {
-     margin: 0;
-     font-size: 13px;
-     color: #555555;
-     line-height: 1.5;
-     text-align: justify;
-     }
-
-    /* Tampilan saat akses ditolak */
-    .access-denied {
-      display: none;
-      color: #dc2626;
-      text-align: center;
-      margin-top: 50px;
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- Pesan jika dibuka tanpa token -->
-<div id="accessDenied" class="access-denied">
-  <h2>Akses Ditolak</h2>
-  <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
-</div>
-
-<!-- Konten Utama (Default tersembunyi sampai token terverifikasi) -->
-<div class="container" id="mainContainer" style="display: none;">
-  <h2 style="margin-top: 0;">ASESMEN KELAS X </h2>
- <marquee class="running-text" behavior="scroll" direction="left" scrollamount="6">
- <h4 style="margin-top: 0;">Takut akan TUHAN adalah permulaan pengetahuan </h4>
- </marquee>
-  <div class="datetime" id="datetime"></div>
-
-  <!-- JAM KE-1 -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">Jam ke-1</div>
-    <div class="content">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScz8Ucu24BWxLg7vtMs7IJCgWzrkTPtC8JhY8vsu_o6Ri9QiA/viewform?usp=header" class="btn">Seni Musik</a>	
-	
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-	</div>
-  </div>
-          
-  <!-- JAM KE-2 -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">Jam ke-2</div>
-    <div class="content">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeR4ccPd2QrcNQlSz8lRM_MIC76r2zV67VjKNWkAetzCAQ49Q/viewform?usp=header" class="btn">Geografi</a>
-		
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-    </div>
-  </div>
-
-<!-- JAM KE-3 -->
-  <div class="jadwal"> 
-	  <div class="label" onClick="toggle(this)">Jam ke-3</div>
-    <div class="content">
- 	
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-    </div>
-  </div>
-  
-  <!-- UMUM -->
-  <div class="jadwal">
-    <div class="label" onClick="toggle(this)">UH - Susulan - Remidi - Literasi</div>
-    <div class="content">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJRay7fszhqvU10bsUiIvciJDSO2GHirLXjJd4LC3EKChmzw/viewform?usp=header" class="btn">Remidi Informatika</a>  		
-	<a href="https://aplsmalab-svg.github.io/4535m3n/informatika.html" class="btn btn-nilai">Lihat Nilai Informatika</a>	
-	 <a href="https://docs.google.com/forms/d/e/1FAIpQLScBSuZ4Vdp-aQ7xlqzrUGChsjv8jY5xckuMYT5bBFORQIwF0A/viewform?usp=header" class="btn">Remidi Fisika</a>
-	<a href="https://aplsmalab-svg.github.io/4535m3n/astsfisikax.html" class="btn btn-nilai">Lihat Nilai Fisika</a>	
-	<a href="https://docs.google.com/forms/d/e/1FAIpQLSenFNYPDBh1pAxELWD4VhpfM50ZXNhQtTz5H_6UJ9dSZDMp1g/viewform" class="btn">Susulan Pengukuran</a>	
-		
-		<a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
-    </div>
-  </div>
-<!-- DESKRIPSI TKA DI LUAR TOMBOL (Paling Bawah) -->
-  <div class="footer-desc">
-    <h4>Deskripsi</h4>
-    <p>Mengukur ketercapaian kompetensi murid berdasarkan tujuan pembelajaran melalui berbagai bentuk asesmen..</p>
-  </div>
- </div>
-
 <script>
-
   /* =========================================
      SECURITY TOKEN
      ========================================= */
-
-  const EXPECTED_TOKEN =
-    "AksesKhususGoogleSites2026";
-
+  const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
 
   function checkAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("key");
 
-    const urlParams =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const token =
-      urlParams.get("key");
-
-
-    if (
-      token === EXPECTED_TOKEN
-    ) {
-
-      document.getElementById(
-        "mainContainer"
-      ).style.display = "block";
-
+    if (token === EXPECTED_TOKEN) {
+      document.getElementById("mainContainer").style.display = "block";
+    } else {
+      document.getElementById("accessDenied").style.display = "block";
     }
-
-    else {
-
-      document.getElementById(
-        "accessDenied"
-      ).style.display = "block";
-
-    }
-
   }
-
-
   checkAccess();
 
-
-
   /* =========================================
-     BUKA / TUTUP KELOMPOK
+     BUKA / TUTUP KELOMPOK (ACCORDION)
      ========================================= */
-
   function toggle(el) {
+    let content = el.nextElementSibling;
+    const semuaContent = document.querySelectorAll(".content");
+    const akanDibuka = content.style.display !== "block";
 
-    let content =
-      el.nextElementSibling;
-
-
-    const semuaContent =
-      document.querySelectorAll(
-        ".content"
-      );
-
-
-    /* Jika sedang membuka */
-    const akanDibuka =
-      content.style.display !== "block";
-
-
-    /*
-     * Tutup semua kelompok
-     */
-
-    semuaContent.forEach(
-      function(item) {
-
-        item.style.display = "none";
-
-      }
-    );
-
-
-    /*
-     * Buka yang dipilih
-     */
+    semuaContent.forEach(item => item.style.display = "none");
 
     if (akanDibuka) {
-
-      content.style.display =
-        "block";
-
-
-      /*
-       * Simpan kelompok yang terbuka
-       */
-
-      sessionStorage.setItem(
-        "kelompokTerakhir",
-        el.innerText
-      );
-
+      content.style.display = "block";
+      localStorage.setItem("kelompokTerakhir", el.innerText.trim());
     }
-
   }
-
-
 
   /* =========================================
      TANGGAL & JAM
      ========================================= */
-
   function updateDateTime() {
+    const now = new Date();
+    const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-    const now =
-      new Date();
-
-
-    const hari = [
-      "Minggu",
-      "Senin",
-      "Selasa",
-      "Rabu",
-      "Kamis",
-      "Jumat",
-      "Sabtu"
-    ];
-
-
-    const bulan = [
-      "Januari",
-      "Februari",
-      "Maret",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Agustus",
-      "September",
-      "Oktober",
-      "November",
-      "Desember"
-    ];
-
-
-    const h =
-      hari[now.getDay()];
-
-
-    const tgl =
-      now.getDate();
-
-
-    const bln =
-      bulan[now.getMonth()];
-
-
-    const thn =
-      now.getFullYear();
-
-
-    const jam =
-      now.getHours()
-        .toString()
-        .padStart(2, "0");
-
-
-    const menit =
-      now.getMinutes()
-        .toString()
-        .padStart(2, "0");
-
-
-    const detik =
-      now.getSeconds()
-        .toString()
-        .padStart(2, "0");
-
-
-    document.getElementById(
-      "datetime"
-    ).innerHTML =
-
-      h + ", " +
-      tgl + " " +
-      bln + " " +
-      thn +
-
-      "<br>" +
-
-      jam + ":" +
-      menit + ":" +
-      detik;
-
+    document.getElementById("datetime").innerHTML = 
+      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()}<br>` +
+      `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
   }
-
-
-  setInterval(
-    updateDateTime,
-    1000
-  );
-
-
+  setInterval(updateDateTime, 1000);
   updateDateTime();
 
-
-
   /* =========================================
-     SIMPAN SOAL TERAKHIR
+     MANAJEMEN SOAL (IFRAME & LOCALSTORAGE)
      ========================================= */
+  function bukaSoal(url) {
+    // Simpan link soal yang dibuka ke localStorage
+    localStorage.setItem("soalAktif", url);
 
-  document
-    .querySelectorAll("a.btn")
-    .forEach(
-      function(link) {
-
-
-        link.addEventListener(
-          "click",
-          function() {
-
-
-            /*
-             * Jangan simpan tombol
-             * Lihat Nilai
-             */
-
-            if (
-              link.classList.contains(
-                "btn-nilai"
-              )
-            ) {
-
-              return;
-
-            }
-
-
-            /*
-             * Simpan URL soal
-             */
-
-            sessionStorage.setItem(
-              "soalTerakhir",
-              link.href
-            );
-
-
-            /*
-             * Simpan kelas
-
-             */
-
-            sessionStorage.setItem(
-              "kelasSoalTerakhir",
-              "X"
-            );
-
-          }
-        );
-
-
-        /*
-         * Cegah klik tombol tengah mouse
-         */
-
-        link.addEventListener(
-          "auxclick",
-          function(e) {
-
-            e.preventDefault();
-
-          }
-        );
-
-      }
-    );
-
-
-
-  /* =========================================
-     PULIHKAN KELOMPOK TERAKHIR
-     ========================================= */
-
-  window.addEventListener(
-    "load",
-    function() {
-
-
-      const kelompokTerakhir =
-        sessionStorage.getItem(
-          "kelompokTerakhir"
-        );
-
-
-      if (!kelompokTerakhir) {
-
-        return;
-
-      }
-
-
-      const labels =
-        document.querySelectorAll(
-          ".label"
-        );
-
-
-      labels.forEach(
-        function(label) {
-
-
-          if (
-            label.innerText.trim() ===
-            kelompokTerakhir.trim()
-          ) {
-
-
-            const content =
-              label.nextElementSibling;
-
-
-            content.style.display =
-              "block";
-
-          }
-
-        }
-      );
-
+    // Buat/tampilkan Container Iframe Soal
+    let iframeContainer = document.getElementById("iframeSoalContainer");
+    
+    if (!iframeContainer) {
+      iframeContainer = document.createElement("div");
+      iframeContainer.id = "iframeSoalContainer";
+      iframeContainer.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999;";
+      
+      // Tombol kembali (opsional jika siswa ingin memilih soal lain)
+      const btnTutup = document.createElement("button");
+      btnTutup.innerText = "? Kembali ke Menu Soal";
+      btnTutup.style.cssText = "position:absolute; top:10px; right:10px; padding:8px 12px; background:#dc3545; color:white; border:none; border-radius:5px; cursor:pointer; z-index:10000;";
+      btnTutup.onclick = tutupSoal;
+      
+      const iframe = document.createElement("iframe");
+      iframe.id = "frameSoal";
+      iframe.style.cssText = "width:100%; height:100%; border:none;";
+      
+      iframeContainer.appendChild(btnTutup);
+      iframeContainer.appendChild(iframe);
+      document.body.appendChild(iframeContainer);
+    } else {
+      iframeContainer.style.display = "block";
     }
-  );
 
+    document.getElementById("frameSoal").src = url;
+  }
 
+  function tutupSoal() {
+    localStorage.removeItem("soalAktif");
+    const iframeContainer = document.getElementById("iframeSoalContainer");
+    if (iframeContainer) iframeContainer.style.display = "none";
+  }
+
+  // Pasang event listener pada setiap tombol soal
+  document.querySelectorAll("a.btn").forEach(link => {
+    link.addEventListener("click", function(e) {
+      if (link.classList.contains("btn-nilai")) return; // Abaikan tombol lihat nilai
+
+      e.preventDefault(); // Cegah pindah halaman bawaan <a>
+      bukaSoal(this.href);
+    });
+
+    link.addEventListener("auxclick", e => e.preventDefault());
+  });
+
+  /* =========================================
+     PULIHKAN SOAL & KELOMPOK SAAT PAGE REFRESH
+     ========================================= */
+  window.addEventListener("load", function() {
+    // 1. Cek apakah ada soal yang sedang aktif saat halaman direfresh
+    const soalAktif = localStorage.getItem("soalAktif");
+    if (soalAktif) {
+      bukaSoal(soalAktif);
+    }
+
+    // 2. Pulihkan menu kelompok (accordion) terakhir
+    const kelompokTerakhir = localStorage.getItem("kelompokTerakhir");
+    if (kelompokTerakhir) {
+      document.querySelectorAll(".label").forEach(label => {
+        if (label.innerText.trim() === kelompokTerakhir) {
+          label.nextElementSibling.style.display = "block";
+        }
+      });
+    }
+  });
 
   /* =========================================
      NONAKTIFKAN KLIK KANAN
      ========================================= */
-
-  document.addEventListener(
-    "contextmenu",
-    function(e) {
-
-      e.preventDefault();
-
-    }
-  );
-
+  document.addEventListener("contextmenu", e => e.preventDefault());
 </script>
-
-
-</body>
-</html>
