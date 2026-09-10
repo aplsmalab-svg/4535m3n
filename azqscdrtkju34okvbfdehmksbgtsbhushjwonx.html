@@ -1,128 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Soal</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Container untuk membuat tombol berjejer mendatar */
+    .menu-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      position: relative;
+    }
+
+    .jadwal {
+      position: relative; /* Penting untuk posisi dropdown */
+      flex: 1 1 auto;
+      min-width: 120px;
+    }
+
+    .label {
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .label:hover {
+      background: #0056b3;
+    }
+
+    /* Content/Menu drop-down melayang */
+    .content {
+      display: none;
+      position: absolute;
+      top: 105%;
+      left: 0;
+      width: 220px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+      z-index: 100;
+    }
+
+    .btn {
+      display: block;
+      padding: 10px;
+      margin: 4px 0;
+      text-align: center;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .btn:hover {
+      background: #218838;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .access-denied {
+      display: none;
+      color: #dc2626;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Pesan jika dibuka tanpa token -->
+<div id="accessDenied" class="access-denied">
+  <h2>Akses Ditolak</h2>
+  <p>Anda tidak memiliki izin untuk mengakses halaman ini secara langsung.</p>
+</div>
+
+<!-- Konten Utama -->
+<div class="container" id="mainContainer" style="display: none;">
+  
+  <div class="menu-bar">
+    <!-- JAM KE-1 -->
+    <div class="jadwal">
+      <div class="label" onClick="toggle(this)">Jam ke-1</div>
+      <div class="content">
+        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+      </div>
+    </div>
+            
+    <!-- JAM KE-2 -->
+    <div class="jadwal">
+      <div class="label" onClick="toggle(this)">Jam ke-2</div>
+      <div class="content">
+        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+      </div>
+    </div>
+
+    <!-- JAM KE-3 -->
+    <div class="jadwal">
+      <div class="label" onClick="toggle(this)">Jam ke-3</div>
+      <div class="content">
+        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+      </div>
+    </div>
+    
+    <!-- UMUM -->
+    <div class="jadwal">
+      <div class="label" onClick="toggle(this)">UH / Remidi / Literasi</div>
+      <div class="content">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScHdQYa3bui2mj9m7zBt4dzUeAhHb6yiKq8zQW2ZfNxabWIOw/viewform" class="btn">UH Fisika Pengukuran</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSegsnQK8MTQG5BeNgm3gU5fGkgfOiGAhOl-ynG7zrePirpPtA/viewform" class="btn">Literasi/Numerasi</a>
+        <a href="https://linksoal1c.com" class="btn" style="display:none;">Paket C</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <script>
-  /* =========================================
-     SECURITY TOKEN
-     ========================================= */
+  // Validasi Security Token dari URL
   const EXPECTED_TOKEN = "AksesKhususGoogleSites2026";
 
   function checkAccess() {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("key");
+    const token = urlParams.get('key');
 
     if (token === EXPECTED_TOKEN) {
-      document.getElementById("mainContainer").style.display = "block";
+      document.getElementById('mainContainer').style.display = 'block';
     } else {
-      document.getElementById("accessDenied").style.display = "block";
+      document.getElementById('accessDenied').style.display = 'block';
     }
   }
+
   checkAccess();
 
-  /* =========================================
-     BUKA / TUTUP KELOMPOK (ACCORDION)
-     ========================================= */
+  // Toggle buka-tutup menu (Tutup menu lain jika ada yang dibuka)
   function toggle(el) {
-    let content = el.nextElementSibling;
-    const semuaContent = document.querySelectorAll(".content");
-    const akanDibuka = content.style.display !== "block";
-
-    semuaContent.forEach(item => item.style.display = "none");
-
-    if (akanDibuka) {
-      content.style.display = "block";
-      localStorage.setItem("kelompokTerakhir", el.innerText.trim());
-    }
-  }
-
-  /* =========================================
-     TANGGAL & JAM
-     ========================================= */
-  function updateDateTime() {
-    const now = new Date();
-    const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-    const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-
-    document.getElementById("datetime").innerHTML = 
-      `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()}<br>` +
-      `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
-
-  /* =========================================
-     MANAJEMEN SOAL (IFRAME & LOCALSTORAGE)
-     ========================================= */
-  function bukaSoal(url) {
-    // Simpan link soal yang dibuka ke localStorage
-    localStorage.setItem("soalAktif", url);
-
-    // Buat/tampilkan Container Iframe Soal
-    let iframeContainer = document.getElementById("iframeSoalContainer");
+    const allContents = document.querySelectorAll('.content');
+    const targetContent = el.nextElementSibling;
     
-    if (!iframeContainer) {
-      iframeContainer = document.createElement("div");
-      iframeContainer.id = "iframeSoalContainer";
-      iframeContainer.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999;";
-      
-      // Tombol kembali (opsional jika siswa ingin memilih soal lain)
-      const btnTutup = document.createElement("button");
-      btnTutup.innerText = "? Kembali ke Menu Soal";
-      btnTutup.style.cssText = "position:absolute; top:10px; right:10px; padding:8px 12px; background:#dc3545; color:white; border:none; border-radius:5px; cursor:pointer; z-index:10000;";
-      btnTutup.onclick = tutupSoal;
-      
-      const iframe = document.createElement("iframe");
-      iframe.id = "frameSoal";
-      iframe.style.cssText = "width:100%; height:100%; border:none;";
-      
-      iframeContainer.appendChild(btnTutup);
-      iframeContainer.appendChild(iframe);
-      document.body.appendChild(iframeContainer);
-    } else {
-      iframeContainer.style.display = "block";
-    }
-
-    document.getElementById("frameSoal").src = url;
-  }
-
-  function tutupSoal() {
-    localStorage.removeItem("soalAktif");
-    const iframeContainer = document.getElementById("iframeSoalContainer");
-    if (iframeContainer) iframeContainer.style.display = "none";
-  }
-
-  // Pasang event listener pada setiap tombol soal
-  document.querySelectorAll("a.btn").forEach(link => {
-    link.addEventListener("click", function(e) {
-      if (link.classList.contains("btn-nilai")) return; // Abaikan tombol lihat nilai
-
-      e.preventDefault(); // Cegah pindah halaman bawaan <a>
-      bukaSoal(this.href);
+    // Sembunyikan dropdown lainnya dulu
+    allContents.forEach(content => {
+      if (content !== targetContent) {
+        content.style.display = "none";
+      }
     });
 
-    link.addEventListener("auxclick", e => e.preventDefault());
-  });
+    // Buka/Tutup menu yang diklik
+    targetContent.style.display = (targetContent.style.display === "block") ? "none" : "block";
+  }
 
-  /* =========================================
-     PULIHKAN SOAL & KELOMPOK SAAT PAGE REFRESH
-     ========================================= */
-  window.addEventListener("load", function() {
-    // 1. Cek apakah ada soal yang sedang aktif saat halaman direfresh
-    const soalAktif = localStorage.getItem("soalAktif");
-    if (soalAktif) {
-      bukaSoal(soalAktif);
-    }
-
-    // 2. Pulihkan menu kelompok (accordion) terakhir
-    const kelompokTerakhir = localStorage.getItem("kelompokTerakhir");
-    if (kelompokTerakhir) {
-      document.querySelectorAll(".label").forEach(label => {
-        if (label.innerText.trim() === kelompokTerakhir) {
-          label.nextElementSibling.style.display = "block";
-        }
-      });
+  // Tutup menu jika klik di luar area menu
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.jadwal')) {
+      document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
     }
   });
 
-  /* =========================================
-     NONAKTIFKAN KLIK KANAN
-     ========================================= */
-  document.addEventListener("contextmenu", e => e.preventDefault());
+  // Nonaktifkan klik kanan
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+  // Paksa buka di halaman yang sama
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = this.href;
+    });
+
+    link.addEventListener('auxclick', function(e) {
+      e.preventDefault();
+    });
+  });
 </script>
+
+</body>
+</html>
