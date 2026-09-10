@@ -1,0 +1,339 @@
+<script>
+
+  const EXPECTED_TOKEN =
+    "AksesKhususGoogleSites2026";
+
+
+  /*
+   * =====================================================
+   * CEK AKSES
+   * =====================================================
+   */
+
+  function checkAccess() {
+
+    const urlParams =
+      new URLSearchParams(window.location.search);
+
+    const token =
+      urlParams.get("key");
+
+
+    if (token === EXPECTED_TOKEN) {
+
+      document.getElementById(
+        "mainContainer"
+      ).style.display = "block";
+
+    } else {
+
+      document.getElementById(
+        "accessDenied"
+      ).style.display = "block";
+
+    }
+  }
+
+
+  checkAccess();
+
+
+  /*
+   * =====================================================
+   * MEMBUKA KELOMPOK JAM
+   * =====================================================
+   */
+
+  function toggle(el) {
+
+    const content =
+      el.nextElementSibling;
+
+
+    /*
+     * Tutup semua kelompok terlebih dahulu
+     */
+    document.querySelectorAll(".content")
+      .forEach(function(item) {
+
+        if (item !== content) {
+          item.style.display = "none";
+        }
+
+      });
+
+
+    /*
+     * Buka/tutup kelompok yang dipilih
+     */
+    const isOpen =
+      content.style.display === "block";
+
+
+    if (isOpen) {
+
+      content.style.display = "none";
+
+      sessionStorage.removeItem(
+        "kelompokTerakhir"
+      );
+
+    } else {
+
+      content.style.display = "block";
+
+      sessionStorage.setItem(
+        "kelompokTerakhir",
+        el.innerText.trim()
+      );
+
+    }
+  }
+
+
+  /*
+   * =====================================================
+   * MEMULIHKAN KELOMPOK TERAKHIR
+   * =====================================================
+   */
+
+  function restoreLastGroup() {
+
+    const lastGroup =
+      sessionStorage.getItem(
+        "kelompokTerakhir"
+      );
+
+
+    if (!lastGroup) {
+      return;
+    }
+
+
+    document.querySelectorAll(".label")
+      .forEach(function(label) {
+
+        if (
+          label.innerText.trim() === lastGroup
+        ) {
+
+          const content =
+            label.nextElementSibling;
+
+          content.style.display = "block";
+
+        }
+
+      });
+  }
+
+
+  /*
+   * =====================================================
+   * MENYIMPAN SOAL YANG DIBUKA
+   * =====================================================
+   */
+
+  document.querySelectorAll("a")
+    .forEach(function(link) {
+
+      link.addEventListener(
+        "click",
+        function(e) {
+
+          e.preventDefault();
+
+
+          const url =
+            this.href;
+
+
+          /*
+           * Lihat Nilai tidak dianggap sebagai soal
+           */
+          if (
+            this.classList.contains("btn-nilai")
+          ) {
+
+            sessionStorage.removeItem(
+              "soalTerakhir"
+            );
+
+            sessionStorage.removeItem(
+              "kelasSoalTerakhir"
+            );
+
+          } else {
+
+            /*
+             * Simpan soal terakhir
+             */
+            sessionStorage.setItem(
+              "soalTerakhir",
+              url
+            );
+
+
+            /*
+             * Tandai bahwa soal berasal dari Kelas X
+             */
+            sessionStorage.setItem(
+              "kelasSoalTerakhir",
+              "X"
+            );
+
+          }
+
+
+          /*
+           * Pindahkan iframe ke soal
+           */
+          window.location.href = url;
+
+        }
+      );
+
+
+      /*
+       * Mencegah klik tombol tengah /
+       * buka tab baru
+       */
+      link.addEventListener(
+        "auxclick",
+        function(e) {
+
+          e.preventDefault();
+
+        }
+      );
+
+    });
+
+
+  /*
+   * =====================================================
+   * JAM DAN TANGGAL
+   * =====================================================
+   */
+
+  function updateDateTime() {
+
+    const now =
+      new Date();
+
+
+    const hari = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu"
+    ];
+
+
+    const bulan = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ];
+
+
+    let h =
+      hari[now.getDay()];
+
+    let tgl =
+      now.getDate();
+
+    let bln =
+      bulan[now.getMonth()];
+
+    let thn =
+      now.getFullYear();
+
+    let jam =
+      now.getHours()
+        .toString()
+        .padStart(2, "0");
+
+    let menit =
+      now.getMinutes()
+        .toString()
+        .padStart(2, "0");
+
+    let detik =
+      now.getSeconds()
+        .toString()
+        .padStart(2, "0");
+
+
+    document.getElementById(
+      "datetime"
+    ).innerHTML =
+
+      h +
+      ", " +
+      tgl +
+      " " +
+      bln +
+      " " +
+      thn +
+      "<br>" +
+      jam +
+      ":" +
+      menit +
+      ":" +
+      detik;
+  }
+
+
+  setInterval(
+    updateDateTime,
+    1000
+  );
+
+  updateDateTime();
+
+
+  /*
+   * =====================================================
+   * NONAKTIFKAN MENU KLIK KANAN
+   * =====================================================
+   */
+
+  document.addEventListener(
+    "contextmenu",
+    function(e) {
+
+      e.preventDefault();
+
+    }
+  );
+
+
+  /*
+   * =====================================================
+   * RESTORE KELOMPOK TERAKHIR
+   * =====================================================
+   */
+
+  window.addEventListener(
+    "load",
+    function() {
+
+      restoreLastGroup();
+
+    }
+  );
+
+</script>
