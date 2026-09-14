@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tag untuk mencegah caching pada browser/proxy -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Cari Data Google Form</title>
     <!-- Library PapaParse untuk membaca data CSV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -35,6 +41,9 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input[type="text"] {
@@ -102,8 +111,8 @@
     <div id="result"></div>
 
     <script>
-    const SHEET_CSV_URL = 
-'https://docs.google.com/spreadsheets/d/e/2PACX-1vQFd_IimM36sNHKKxjq2IaTNnjczxnJd71ySx_QfLRruk114INv305DD5TMH7QXkFk3lEL6zaHRIczb/pub?gid=192844699&single=true&output=csv;
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQFd_IimM36sNHKKxjq2IaTNnjczxnJd71ySx_QfLRruk114INv305DD5TMH7QXkFk3lEL6zaHRIczb/pub?gid=192844699&single=true&output=csv';
+    const HEADER_NAMA_LIST = ['Nama1', 'Nama2'];
 
     document.getElementById('searchInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
@@ -114,23 +123,28 @@
     function cariData() {
         const namaCari = document.getElementById('searchInput').value.trim().toLowerCase();
         const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
 
         if (!namaCari) {
             resultDiv.innerHTML = '<p style="color:red; text-align:center;">Silakan masukkan nama terlebih dahulu.</p>';
             return;
         }
 
-        Papa.parse(SHEET_CSV_URL, {
+        resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
+
+        const cacheBusterUrl = SHEET_CSV_URL + '&_nc=' + new Date().getTime();
+
+        Papa.parse(cacheBusterUrl, {
             download: true,
             header: true,
+            skipEmptyLines: true,
+            transformHeader: function(h) {
+                return h.trim(); // Menghapus spasi yang tidak sengaja ada di header CSV
+            },
             complete: function(results) {
                 const data = results.data;
-                const headerNamaList = ['Nama1', 'Nama2'];
                 
                 const hasilFilter = data.filter(row => {
-                    // Memeriksa apakah kata kunci ada di salah satu dari kolom nama1-nama5
-                    return headerNamaList.some(col => {
+                    return HEADER_NAMA_LIST.some(col => {
                         const val = (row[col] || '').toLowerCase();
                         return val.includes(namaCari);
                     });
@@ -146,38 +160,35 @@
 
     function tampilkanHasil(data) {
         const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = '';
 
         if (data.length === 0) {
             resultDiv.innerHTML = '<p style="text-align:center;">Data tidak ditemukan.</p>';
             return;
         }
 
-        const headerNamaList = ['Nama1', 'Nama2'];
+        let cardsHtml = '';
 
         data.forEach(item => {
-            // Mengambil semua nama yang terisi dari nama1 - nama5
-            const daftarNama = headerNamaList
+            const daftarNama = HEADER_NAMA_LIST
                 .map(col => (item[col] || '').trim())
                 .filter(nama => nama !== '');
 
-            // Menggabungkan nama dengan pemisah koma
             const namaTampil = daftarNama.length > 0 ? daftarNama.join(', ') : '-';
+            const sekolah = item['Kelas'] || '-';
+            const nilai = item['Score'] || item['Nilai'] || item['Skor'] || '-';
+            const waktu = item['Timestamp'] || '-';
 
-            const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
-            const nilai = item['Nilai'] || item['Score'] || '-';
-            const waktu = item['Timestamp'] || item['Waktu'] || '-';
-            
-            let htmlCard = `
+            cardsHtml += `
                 <div class="card">
                     <p><strong>Nama:</strong> ${namaTampil}</p>
                     <p><strong>Kelas:</strong> ${sekolah}</p>
                     <p><strong>Nilai:</strong> ${nilai}</p>
-                    <p><strong>Waktu:</strong> ${waktu}</p>
-            </div>
+                    <p><strong>Waktu submit:</strong> ${waktu}</p>
+                </div>
             `;
-            resultDiv.innerHTML += htmlCard;
         });
+
+        resultDiv.innerHTML = cardsHtml;
     }
 
     // Nonaktifkan klik kanan
