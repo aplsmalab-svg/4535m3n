@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tag untuk mencegah caching pada browser/proxy -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Cari Data Google Form</title>
     <!-- Library PapaParse untuk membaca data CSV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -35,6 +41,9 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         input[type="text"] {
@@ -91,7 +100,7 @@
 </head>
 <body>
 
-    <h2>Lihat ASTS Fisika XII</h2>
+    <h2>Nilai ASTS-1 Fisika XII</h2>
     <h4>Nama tidak harus ditulis lengkap!</h4>
     
     <div class="form-group">
@@ -102,90 +111,91 @@
     <div id="result"></div>
 
     <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQFd_IimM36sNHKKxjq2IaTNnjczxnJd71ySx_QfLRruk114INv305DD5TMH7QXkFk3lEL6zaHRIczb/pub?gid=192844699&single=true&output=csv';
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQSuWoVJHVK3MxL5ozf06eCNH5acsUiexep-Y-ZASpGg1e0C0UBjGjQF6Bnsdwzv61yFk9bJZ_OmyJq/pub?gid=1286060148&single=true&output=csv';
+    const HEADER_NAMA_LIST = ['Nama1', 'Nama2', 'Nama3', 'Nama4', 'Nama5'];
 
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                cariData();
-            }
-        });
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            cariData();
+        }
+    });
 
-        function cariData() {
-            const namaCari = document.getElementById('searchInput').value.trim().toLowerCase();
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
+    function cariData() {
+        const namaCari = document.getElementById('searchInput').value.trim().toLowerCase();
+        const resultDiv = document.getElementById('result');
 
-            if (!namaCari) {
-                resultDiv.innerHTML = '<p style="color:red; text-align:center;">Silakan masukkan nama terlebih dahulu.</p>';
-                return;
-            }
-
-            Papa.parse(SHEET_CSV_URL, {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    const data = results.data;
-                    
-                    const hasilFilter = data.filter(row => {
-                        // Mencari di kolom 'Nama 1' atau 'Nama 2'
-                        // Jika di Google Sheet Anda nama headernya sedikit berbeda (misal 'Nama' dan 'Nama 2'), sesuaikan teks di dalam kurung siku
-                        const nama1 = (row['Nama1'] || row['Nama'] || '').toLowerCase();
-                        const nama2 = (row['Nama2'] || '').toLowerCase();
-
-                        return nama1.includes(namaCari) || nama2.includes(namaCari);
-                    });
-
-                    tampilkanHasil(hasilFilter);
-                },
-                error: function(err) {
-                    resultDiv.innerHTML = '<p style="color:red; text-align:center;">Gagal mengambil data. Pastikan koneksi atau link CSV benar.</p>';
-                }
-            });
+        if (!namaCari) {
+            resultDiv.innerHTML = '<p style="color:red; text-align:center;">Silakan masukkan nama terlebih dahulu.</p>';
+            return;
         }
 
-        function tampilkanHasil(data) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';
+        resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
 
-            if (data.length === 0) {
-                resultDiv.innerHTML = '<p style="text-align:center;">Data tidak ditemukan.</p>';
-                return;
+        const cacheBusterUrl = SHEET_CSV_URL + '&_nc=' + new Date().getTime();
+
+        Papa.parse(cacheBusterUrl, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            transformHeader: function(h) {
+                return h.trim(); // Menghapus spasi yang tidak sengaja ada di header CSV
+            },
+            complete: function(results) {
+                const data = results.data;
+                
+                const hasilFilter = data.filter(row => {
+                    return HEADER_NAMA_LIST.some(col => {
+                        const val = (row[col] || '').toLowerCase();
+                        return val.includes(namaCari);
+                    });
+                });
+
+                tampilkanHasil(hasilFilter);
+            },
+            error: function(err) {
+                resultDiv.innerHTML = '<p style="color:red; text-align:center;">Gagal mengambil data. Pastikan koneksi atau link CSV benar.</p>';
             }
+        });
+    }
 
-            data.forEach(item => {
-                const nama1 = (item['Nama1'] || item['Nama'] || '').trim();
-                const nama2 = (item['Nama2'] || '').trim();
-                const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
-                const nilai = item['Score'] || item['Nilai'] || item['Skor'] || '-';
-                const waktu = item['Timestamp'] || '-';
+    function tampilkanHasil(data) {
+        const resultDiv = document.getElementById('result');
 
-                // Menggabungkan Nama 1 dan Nama 2 untuk ditampilkan
-                let namaTampil = '-';
-                if (nama1 && nama2) {
-                    namaTampil = `${nama1} / ${nama2}`;
-                } else if (nama1) {
-                    namaTampil = nama1;
-                } else if (nama2) {
-                    namaTampil = nama2;
-                }
+        if (data.length === 0) {
+            resultDiv.innerHTML = '<p style="text-align:center;">Data tidak ditemukan.</p>';
+            return;
+        }
 
-                let htmlCard = `
-                    <div class="card">
-                        <p><strong>Nama:</strong> ${namaTampil}</p>
+        let cardsHtml = '';
+
+        data.forEach(item => {
+            const daftarNama = HEADER_NAMA_LIST
+                .map(col => (item[col] || '').trim())
+                .filter(nama => nama !== '');
+
+            const namaTampil = daftarNama.length > 0 ? daftarNama.join(', ') : '-';
+            const sekolah = item['Kelas'] || '-';
+            const nilai = item['Score'] || item['Nilai'] || item['Skor'] || '-';
+            const waktu = item['Timestamp'] || '-';
+
+            cardsHtml += `
+                <div class="card">
+                     <p><strong>Nama:</strong> ${namaTampil}</p>
                         <p><strong>Kelas:</strong> ${sekolah}</p>
                         <p><strong>Nilai:</strong> ${nilai}</p>
                         <p><strong>Waktu submit:</strong> ${waktu}</p>
                     </div>
-                `;
-                resultDiv.innerHTML += htmlCard;
-            });
-        }
-
-        // Nonaktifkan klik kanan
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
+            `;
         });
-    </script>
+
+        resultDiv.innerHTML = cardsHtml;
+    }
+
+    // Nonaktifkan klik kanan
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+</script>
 
 </body>
 </html>
