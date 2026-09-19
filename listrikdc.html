@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Data Google Form</title>
+    <!-- Library PapaParse untuk membaca data CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h2, h4 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        h4 {
+            color: #666;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input[type="password"]:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 480px) {
+            .form-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>UH Listrik Arus Searah</h2>
+    <h4>Masukkan password untuk melihat data nilai</h4>
+    
+    <div class="form-group">
+        <input type="password" id="searchInput" placeholder="Masukkan password...">
+        <button onClick="cariData()">Buka Data</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQYOTrNMbKERH_nA9gyTb8bKMl3-7tr4p2rLYJcIEWg35uAxSLVeofSU0C2M0k-0Z_GcjTw1Ztd5uno/pub?gid=1302462489&single=true&output=csv';
+
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            cariData();
+        }
+    });
+
+    function cariData() {
+        const passCari = document.getElementById('searchInput').value.trim();
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '<p style="text-align:center;">Memuat data...</p>';
+
+        if (!passCari) {
+            resultDiv.innerHTML = '<p style="color:red; text-align:center;">Silakan masukkan password terlebih dahulu.</p>';
+            return;
+        }
+
+        Papa.parse(SHEET_CSV_URL, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                const data = results.data;
+                
+                // Mencari data yang kolom 'Password'-nya persis sama
+                const hasilFilter = data.filter(row => {
+                    const passSheet = (row['Password'] || '').trim();
+                    return passSheet === passCari;
+                });
+
+                tampilkanHasil(hasilFilter);
+            },
+            error: function(err) {
+                resultDiv.innerHTML = '<p style="color:red; text-align:center;">Gagal mengambil data. Pastikan koneksi atau link CSV benar.</p>';
+            }
+        });
+    }
+
+    function tampilkanHasil(data) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '';
+
+        if (data.length === 0) {
+            resultDiv.innerHTML = '<p style="color:red; text-align:center;">Password salah atau data tidak ditemukan!</p>';
+            return;
+        }
+
+        const headerNamaList = ['Nama1', 'Nama2'];
+
+        data.forEach(item => {
+            // Mengambil semua nama yang terisi dari Nama1 - Nama5
+            const daftarNama = headerNamaList
+                .map(col => (item[col] || '').trim())
+                .filter(nama => nama !== '');
+
+            const namaTampil = daftarNama.length > 0 ? daftarNama.join(', ') : '-';
+            const sekolah = item['Sekolah Asal'] || item['Kelas'] || '-';
+            const nilai = item['Nilai'] || item['Score'] || '-';
+            const waktu = item['Timestamp'] || '-';
+            let htmlCard = `
+                <div class="card">
+                    <p><strong>Nama:</strong> ${namaTampil}</p>
+                    <p><strong>Kelas:</strong> ${sekolah}</p>
+                    <p><strong>Nilai:</strong> ${nilai}</p>
+					<p><strong>Waktu submit:</strong> ${waktu}</p>
+                </div>
+            `;
+            resultDiv.innerHTML += htmlCard;
+        });
+    }
+
+    // Nonaktifkan klik kanan
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+</script>
+
+</body>
+</html>
