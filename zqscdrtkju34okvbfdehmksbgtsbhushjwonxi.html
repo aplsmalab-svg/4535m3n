@@ -8,13 +8,17 @@
   <meta name="robots" content="noindex, nofollow, noarchive">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-    }
+    *, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden; /* Mencegah scroll samping jika ada elemen meluap */
+}
 
     .container {
       width: 100%;
@@ -55,18 +59,17 @@
       padding: 10px;
     }
 
-     .btn {
-      display: inline-block; /* Membuat tombol menyesuaikan lebar teks */
-      width: 98%;           /* Lebar */
-      padding: 8px 16px;     /* Ukuran padding yang lebih proporsional */
-      margin: 5px 4px;       /* Jarak antar tombol */
-      text-align: center;
-      background: #28a745;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      box-sizing: border-box;
-    }
+    .btn {
+  display: block;        /* Ubah ke block agar memenuhi wadah secara rapi */
+  width: 100%;           /* Gunakan 100% full width */
+  padding: 10px 16px;    
+  margin: 6px 0;         /* Margin atas-bawah saja, margin kiri-kanan 0 */
+  text-align: center;
+  background: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
 /* Warna khusus untuk tombol Lihat Nilai */
     .btn-nilai {
       background: #17a2b8; /* Ubah kode hex warna di sini (misal: #17a2b8, #fd7e14, dll) */
